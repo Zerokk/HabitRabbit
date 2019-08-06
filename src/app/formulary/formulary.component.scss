@@ -1,0 +1,31 @@
+.small{
+    width: 85%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.numerical-input{
+    width: 40%;
+    display:inline-block;
+    background-color: aliceblue;
+    text-align: center;
+}
+
+.option-input{
+    width: 65%;
+    display: inline-block;
+    background-color: aliceblue;
+}
+
+.round-btn{
+    height: 40px;   
+    width: 40px;
+    border-radius: 50%;
+    background-color: rgb(155, 201, 241);
+    font-size: 18px;
+}
+
+.no-border{
+    border: 0px;
+
+}

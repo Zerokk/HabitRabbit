@@ -1,0 +1,56 @@
+<div [style]="boxStyle">
+  <div class="no-border" *ngFor="let field of formDef.fields">
+    <span [style.display]="(field.condition ? field.condition() : true) ? 'block' : 'none'">
+      <label for="{{field.name}}" class="form-control no-border">
+        {{ field.name }}
+      </label>
+
+      <!-- "TEXT" type, for TEXT fields-->
+      <input *ngIf="field.type == 3" name="{{field.name}}" type="text" class="form-control small"
+        [(ngModel)]="field.value" (keyup)="field?.validator(field.value)">
+
+      <!-- "NUMBER" type, for NUMBER fields-->
+      <div *ngIf="field.type == 0" style="text-align:center">
+        <button class="round-btn" [disabled]="field.value == 0 || !field.value"
+          (click)="field.value = (field.value ? field.value : 0) - 1; check() " style="margin-right: 21px">
+          -
+        </button> <input [(ngModel)]="field.value" disabled class="form-control numerical-input">
+        <button class="round-btn" (click)="field.value = (field.value ? field.value : 0) + 1; check()"
+          style="margin-left:21px">
+          +
+        </button>
+
+      </div>
+
+      <!-- "LIST" type, for setting SELECT and LIST fields-->
+      <div *ngIf="field.type == 5" style="text-align:center">
+        <div *ngFor="let listItem of field.value">
+          <input disabled  [value]="listItem" class="form-control option-input" style="margin-bottom: 8px">
+          <button class="round-btn"
+            (click)="removeFromList(field, listItem)"
+            style="margin-left:21px;background-color:rgb(251, 161, 161)">
+            -
+          </button>
+        </div>
+
+
+        <input [(ngModel)]="field.valueTemp" class="form-control option-input">
+        <button class="round-btn"
+          (click)="field.value ? field.value.push(''+field.valueTemp) : field.value = [''+field.valueTemp]; field.valueTemp = ''"
+          style="margin-left:21px;background-color:rgb(155, 201, 241)">
+          +
+        </button>
+
+      </div>
+
+    </span>
+    <!-- "SELECT" type, for showing SELECT fields-->
+    <select class="form-control small" *ngIf="field.type == 2" (change)="field.value = $event.target.value; check()">
+      <option *ngFor="let opt of field.options">
+        {{ opt }}
+      </option>
+    </select>
+  </div>
+
+  <ion-button (click)="save()"></ion-button>
+</div>
